@@ -1,0 +1,27 @@
+name: PTT Ticket Monitor
+
+on:
+  schedule:
+    # 每 5 分鐘自動執行一次監控
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # 支援手動點擊啟動
+
+jobs:
+  check-ptt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Run PTT Monitor
+        run: |
+          python main.py
